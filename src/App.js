@@ -4,6 +4,7 @@ import Body from './components/Body';
 import appStore from './utils/appStore';
 
 function App(){
+  console.log("App rendered");
   return<Provider store={appStore}><Body></Body></Provider>;
 }
 

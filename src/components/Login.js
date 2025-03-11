@@ -6,6 +6,7 @@ import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router";
 import { addUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
+import { photoURL} from "../utils/constants";
 
 
 
@@ -32,20 +33,17 @@ const Login = ()=>{
         // Signed up 
         const user = userCredential.user;
         updateProfile(user, {
-          displayName: name.current.value, photoURL: "https://avatars.githubusercontent.com/u/107307117?v=4"
+          displayName: name.current.value, photoURL: photoURL
         }).then(() => {
           // Profile updated!
-          // ...
-            const {uid,email,displayName,photoURL} = auth.currentUser;
+          // The below information we copy pasted to geth the updated values i.e auth.currentUser and not only user 
+            const {uid,email,displayName,photoURL} = auth.currentUser; 
             dispatch(addUser({uid : uid,email : email,displayName:displayName,photoURL:photoURL}));
         }).catch((error) => {
           // An error occurred
           // ...
           setErrorMessage(error.message);
         });
-        
-        console.log(user);
-        navigate("/browse");
         // ...
       })
       .catch((error) => {
@@ -62,8 +60,6 @@ const Login = ()=>{
         .then((userCredential) => {
           // Signed in 
           const user = userCredential.user;
-          console.log(user);
-          navigate("/browse");
           // ...
         })
         .catch((error) => {
