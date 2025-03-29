@@ -25,7 +25,7 @@ const Header = ()=>{
   }
   useEffect(()=>{
     // To get the current user is by setting an observer on the Auth object
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
   if (user) {
    const {uid,email,displayName,photoURL} = user;
    dispatch(addUser({uid : uid,email : email,displayName:displayName,photoURL:photoURL}));
@@ -35,14 +35,16 @@ const Header = ()=>{
      navigate("/");
   }
       });
+
+      return ()=> unsubscribe();
    },[]);
  
   return (<div className="absolute z-10 px-8 py-2 bg-gradient-to-b from-black w-screen flex justify-between">
     <img className="w-44 " src= {LOGO_URL} alt="Logo"/>
 
     {user && (<div className="flex p-2">
-      <img className="w-12 h-12" src= {user?.photoURL} alt="img"/>
-      <button onClick={handleSignOut}>Signout</button>
+      <img className="w-12 h-12 m-4" src= {user?.photoURL} alt="img"/>
+      <button className="text-white m-1" onClick={handleSignOut}>(Signout)</button>
     </div>)}
   </div>
 
